@@ -4,5 +4,4 @@ import kotlinx.serialization.Serializable
 
 @Serializable object ContactsScreen
 
-@Serializable
-data class CharacterDetails(val characterId: String)
+@Serializable data class IndividualChatScreen(val contactId: String)

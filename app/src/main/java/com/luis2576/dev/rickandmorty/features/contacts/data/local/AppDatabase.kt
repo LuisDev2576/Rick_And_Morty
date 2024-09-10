@@ -24,5 +24,5 @@ abstract class AppDatabase : RoomDatabase() {
      *
      * @return Una instancia de `ContactsDao`
      */
-    abstract fun characterDao(): ContactsDao
+    abstract fun contactDao(): ContactsDao
 }

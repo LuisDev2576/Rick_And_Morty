@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.luis2576.dev.rickandmorty.features.contacts.domain.model.ContactPreview
+import com.luis2576.dev.rickandmorty.ui.navigation.IndividualChatScreen
 
 /**
  * Componente que muestra una lista de contactos.
@@ -124,11 +125,11 @@ fun ContactsList(
                     }
 
                     // Mostrar los contactos para esta letra
-                    items(contactsForInitial) { character ->
+                    items(contactsForInitial) { contact ->
                         ContactItem(
-                            character,
+                            contact,
                             onClick = {
-                                // ... (Navegar a la pantalla de detalles del contacto)
+                                navController.navigate(IndividualChatScreen(contact.id))
                             }
                         )
                     }

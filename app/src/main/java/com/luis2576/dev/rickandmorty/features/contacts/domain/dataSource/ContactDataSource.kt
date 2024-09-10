@@ -20,12 +20,4 @@ interface ContactDataSource {
      * @param contactList Lista de entidades de contactos a insertar o actualizar
      */
     suspend fun upsertContactList(contactList: List<ContactEntity>)
-
-    /**
-     * Obtiene un contacto por su ID desde la fuente de datos.
-     *
-     * @param contactId ID del contacto a buscar
-     * @return Entidad del contacto si se encuentra, null en caso contrario
-     */
-    suspend fun getContactById(contactId: String): ContactEntity?
 }

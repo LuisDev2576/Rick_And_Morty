@@ -3,7 +3,7 @@ package com.luis2576.dev.rickandmorty.features.contacts.data.mappers
 import com.luis2576.dev.rickandmorty.features.contacts.data.local.ContactEntity
 import com.luis2576.dev.rickandmorty.features.contacts.data.local.ContactEntityPreview
 import com.luis2576.dev.rickandmorty.features.contacts.data.remote.Character
-import com.luis2576.dev.rickandmorty.features.contacts.domain.model.Contact
+import com.luis2576.dev.rickandmorty.features.individualChat.domain.model.Contact
 import com.luis2576.dev.rickandmorty.features.contacts.domain.model.ContactPreview
 
 /**

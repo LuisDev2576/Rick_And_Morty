@@ -23,12 +23,12 @@ import com.luis2576.dev.rickandmorty.features.contacts.domain.model.ContactPrevi
 /**
  * Componente que representa un elemento de contacto en la lista.
  *
- * @param character El objeto ContactPreview que contiene la información del contacto.
+ * @param contact El objeto ContactPreview que contiene la información del contacto.
  * @param onClick La función a ejecutar cuando se hace clic en el elemento.
  */
 @Composable
 fun ContactItem(
-    character: ContactPreview,
+    contact: ContactPreview,
     onClick: () -> Unit
 ) {
 
@@ -40,15 +40,15 @@ fun ContactItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            painter = rememberAsyncImagePainter(model = character.image),
-            contentDescription = "Character Image",
+            painter = rememberAsyncImagePainter(model = contact.image),
+            contentDescription = "Contact Image",
             modifier = Modifier
                 .clip(CircleShape)
                 .size(64.dp)
         )
         Spacer(modifier = Modifier.width(16.dp))
         Text(
-            text = character.name,
+            text = contact.name,
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onSurface,
             fontWeight = FontWeight.Bold

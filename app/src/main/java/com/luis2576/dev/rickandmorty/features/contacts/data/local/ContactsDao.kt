@@ -17,7 +17,7 @@ interface ContactsDao {
      * @return Lista de entidades de vista previa de contactos
      */
     @Query("SELECT id, name, image FROM ContactEntity")
-    suspend fun getAllCharactersPreview(): List<ContactEntityPreview>
+    suspend fun getAllContactsPreview(): List<ContactEntityPreview>
 
     /**
      * Inserta o actualiza una lista de contactos en la base de datos.
@@ -26,7 +26,7 @@ interface ContactsDao {
      * @param characterList Lista de entidades de contactos a insertar o actualizar
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsertCharacterList(characterList: List<ContactEntity>)
+    suspend fun upsertContactList(characterList: List<ContactEntity>)
 
     /**
      * Obtiene un contacto por su ID desde la base de datos
@@ -35,6 +35,6 @@ interface ContactsDao {
      * @return Entidad del contacto si se encuentra, null en caso contrario
      */
     @Query("SELECT * FROM ContactEntity WHERE id = :characterId")
-    suspend fun getCharacterById(characterId: Int): ContactEntity?
+    suspend fun getContactById(characterId: Int): ContactEntity
 
 }

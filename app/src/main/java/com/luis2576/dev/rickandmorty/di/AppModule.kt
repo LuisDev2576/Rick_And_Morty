@@ -11,6 +11,8 @@ import com.luis2576.dev.rickandmorty.features.contacts.data.local.AppDatabase
 import com.luis2576.dev.rickandmorty.features.contacts.data.local.ContactsDao
 import com.luis2576.dev.rickandmorty.features.contacts.data.remote.RickAndMortyApi
 import com.luis2576.dev.rickandmorty.features.contacts.domain.dataSource.ContactDataSource
+import com.luis2576.dev.rickandmorty.features.individualChat.data.dataSource.IndividualChatDataSourceImpl
+import com.luis2576.dev.rickandmorty.features.individualChat.domain.dataSource.IndividualChatDataSource
 import com.luis2576.dev.rickandmorty.util.NetworkUtil
 import dagger.Module
 import dagger.Provides
@@ -77,7 +79,7 @@ object AppModule {
         return Room.databaseBuilder(
             app.applicationContext,
             AppDatabase::class.java,
-            "chractersDatabase.db"
+            "contactDatabase.db"
         ).fallbackToDestructiveMigration()
             .build()
     }
@@ -92,13 +94,19 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCharacterDao(appDatabase: AppDatabase): ContactsDao {
-        return appDatabase.characterDao()
+    fun provideContactDao(appDatabase: AppDatabase): ContactsDao {
+        return appDatabase.contactDao()
     }
 
     @Provides
     @Singleton
-    fun provideCharacterDataSource(characterDao: ContactsDao): ContactDataSource {
-        return ContactDataSourceImpl(characterDao)
+    fun provideContactDataSource(contactDao: ContactsDao): ContactDataSource {
+        return ContactDataSourceImpl(contactDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideIndividualChatDataSource(contactDao: ContactsDao): IndividualChatDataSource {
+        return IndividualChatDataSourceImpl(contactDao)
     }
 }

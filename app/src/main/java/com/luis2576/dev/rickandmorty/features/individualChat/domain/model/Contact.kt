@@ -1,4 +1,4 @@
-package com.luis2576.dev.rickandmorty.features.contacts.domain.model
+package com.luis2576.dev.rickandmorty.features.individualChat.domain.model
 
 import javax.annotation.concurrent.Immutable
 

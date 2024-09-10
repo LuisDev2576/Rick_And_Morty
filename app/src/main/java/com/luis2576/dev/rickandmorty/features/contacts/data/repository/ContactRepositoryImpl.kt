@@ -5,10 +5,8 @@ import com.luis2576.dev.rickandmorty.R
 import com.luis2576.dev.rickandmorty.features.contacts.data.remote.RickAndMortyApi
 import com.luis2576.dev.rickandmorty.features.contacts.domain.dataSource.ContactDataSource
 import com.luis2576.dev.rickandmorty.features.contacts.data.local.ContactEntity
-import com.luis2576.dev.rickandmorty.features.contacts.data.mappers.toContact
 import com.luis2576.dev.rickandmorty.features.contacts.data.mappers.toContactEntity
 import com.luis2576.dev.rickandmorty.features.contacts.data.mappers.toContactPreview
-import com.luis2576.dev.rickandmorty.features.contacts.domain.model.Contact
 import com.luis2576.dev.rickandmorty.features.contacts.domain.model.ContactPreview
 import com.luis2576.dev.rickandmorty.features.contacts.domain.repository.ContactRepository
 import com.luis2576.dev.rickandmorty.util.NetworkUtil
@@ -101,25 +99,4 @@ constructor(
             Resource.Error(context.getString(R.string.error_loading_contacts))
         }
     }
-
-    // TODO Sacar de este repositorio y ponerlo en el de chat para cuando se vaya a crear un nuevo chat, se obtenga la información del personaje o contacto
-    /**
-     * Obtiene los detalles de un contacto por su ID desde la base de datos local
-     *
-     * @param id el ID del contacto a buscar
-     * @return Un objeto `Resource` que contiene el contacto o un error en caso de fallo
-     */
-    override suspend fun getContactById(id: String): Resource<Contact> {
-        return try {
-            val contactEntity = contactDataSource.getContactById(id)
-            if (contactEntity != null) {
-                Resource.Success(contactEntity.toContact())
-            } else {
-                Resource.Error(context.getString(R.string.contact_not_found))
-            }
-        } catch (e: Exception) {
-            Resource.Error(context.getString(R.string.failed_to_load_contact_details))
-        }
-    }
-
 }

@@ -36,8 +36,9 @@ import com.luis2576.dev.rickandmorty.features.individualChat.domain.model.Contac
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChatTopBar(contact: Contact, backHome: () -> Unit) {
+fun ChatTopBar(contact: Contact, backHome: () -> Unit, modifier: Modifier = Modifier) {
     TopAppBar(
+        modifier = modifier,
         title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Image(

@@ -119,7 +119,8 @@ fun ContactsList(
                                     text = initial.toString(),
                                     style = MaterialTheme.typography.titleMedium
                                 )
-                            }
+                            },
+                            enabled = false
                         )
 
                     }

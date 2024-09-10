@@ -2,12 +2,14 @@
 # Versiones de las bibliotecas
 activityCompose = "1.9.0"
 agp = "8.2.2"
+biometric = "1.1.0"
 coilCompose = "2.4.0"
 coilSvg = "2.1.0"
 composeBom = "2023.08.00"
 converterGson = "2.9.0"
 coreKtx = "1.13.1"
 espressoCore = "3.5.1"
+firebaseVertexai = "16.0.0-beta04"
 hilt = "2.51"
 hiltCompilerVersion = "1.1.0"
 junit = "4.13.2"
@@ -31,6 +33,7 @@ googleServices = "4.4.2"
 [libraries]
 # Jetpack Compose
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+androidx-biometric = { module = "androidx.biometric:biometric", version.ref = "biometric" }
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 androidx-material3 = { module = "androidx.compose.material3:material3" }
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
@@ -42,6 +45,7 @@ androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview
 androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+firebase-vertexai = { module = "com.google.firebase:firebase-vertexai", version.ref = "firebaseVertexai" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization"}
 
 # Core Android

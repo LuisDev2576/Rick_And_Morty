@@ -20,78 +20,80 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.luis2576.dev.rickandmorty.features.individualChat.domain.model.Message
+import com.luis2576.dev.rickandmorty.util.formatTimestampToTime12Hour
 
 @Composable
 fun MessageItem(
-   // message: Message
+    message: Message
 ) {
 
-//    Column(
-//        horizontalAlignment = Alignment.End,
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(horizontal = 8.dp, vertical = 4.dp)
-//    ) {
-//        Card(
-//            colors = CardDefaults.cardColors(
-//                containerColor = if (message.sendByMe == true)
-//                    MaterialTheme.colorScheme.primary
-//                else
-//                    MaterialTheme.colorScheme.background
-//            ),
-//            modifier = Modifier
-//                .align(
-//                    if (message.sendByMe == true) Alignment.End else Alignment.Start
-//                )
-//                .padding(
-//                    start = if (message.sendByMe == true) 100.dp else 0.dp,
-//                    end = if (message.sendByMe == false) 100.dp else 0.dp
-//                ),
-//            shape = RoundedCornerShape(20.dp)
-//        ) {
-//            Column(
-//                modifier = Modifier.padding(8.dp).widthIn(min = 150.dp)
-//            ) {
-//
-//                message.imageUrl?.let { im1 ->
-//                    Image(
-//                        painter = rememberAsyncImagePainter(model = im1),
-//                        contentDescription = "Character Image",
-//                        modifier = Modifier
-//                            .clip(RoundedCornerShape(20.dp))
-//                            .clickable {  }
-//                            .fillMaxWidth()
-//                            .height(300.dp),
-//                        contentScale = ContentScale.Crop
-//                    )
-//                }
-//                message.text?.let { it1 ->
-//                    Text(
-//                        text = it1,
-//                        modifier = Modifier
-//                            .padding(vertical = 8.dp, horizontal = 16.dp)
-//                            .wrapContentWidth(Alignment.Start), // No se expande más de lo necesario
-//                        color = if (message.sendByMe == true)
-//                            MaterialTheme.colorScheme.onPrimary
-//                        else
-//                            MaterialTheme.colorScheme.onSurfaceVariant
-//                    )
-//                }
-//                // Texto principal
-//
-//                // Segundo texto (timestamp)
-//                Text(
-//                    text = formatTimestampToTime12Hour(message.timestamp),
-//                    color = if (message.sendByMe == true)
-//                        MaterialTheme.colorScheme.onSurface
-//                    else
-//                        MaterialTheme.colorScheme.onSurfaceVariant,
-//                    maxLines = 1,
-//                    modifier = Modifier.align(Alignment.End), // Alinea a la derecha el timestamp
-//                )
-//            }
-//        }
-//    }
+    Column(
+        horizontalAlignment = Alignment.End,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp, vertical = 4.dp)
+    ) {
+        Card(
+            colors = CardDefaults.cardColors(
+                containerColor = if (message.sendByMe == true)
+                    MaterialTheme.colorScheme.primary
+                else
+                    MaterialTheme.colorScheme.background
+            ),
+            modifier = Modifier
+                .align(
+                    if (message.sendByMe == true) Alignment.End else Alignment.Start
+                )
+                .padding(
+                    start = if (message.sendByMe == true) 100.dp else 0.dp,
+                    end = if (message.sendByMe == false) 100.dp else 0.dp
+                ),
+            shape = RoundedCornerShape(20.dp)
+        ) {
+            Column(
+                modifier = Modifier.padding(8.dp).widthIn(min = 150.dp)
+            ) {
+
+                message.imageUrl?.let { im1 ->
+                    Image(
+                        painter = rememberAsyncImagePainter(model = im1),
+                        contentDescription = "Character Image",
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(20.dp))
+                            .clickable {  }
+                            .fillMaxWidth()
+                            .height(300.dp),
+                        contentScale = ContentScale.Crop
+                    )
+                }
+                message.text?.let { it1 ->
+                    Text(
+                        text = it1,
+                        modifier = Modifier
+                            .padding(vertical = 8.dp, horizontal = 16.dp)
+                            .wrapContentWidth(Alignment.Start), // No se expande más de lo necesario
+                        color = if (message.sendByMe == true)
+                            MaterialTheme.colorScheme.onPrimary
+                        else
+                            MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                // Texto principal
+
+                // Segundo texto (timestamp)
+                Text(
+                    text = formatTimestampToTime12Hour(message.timestamp),
+                    color = if (message.sendByMe == true)
+                        MaterialTheme.colorScheme.onSurface
+                    else
+                        MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    modifier = Modifier.align(Alignment.End), // Alinea a la derecha el timestamp
+                )
+            }
+        }
+    }
 
 
 }

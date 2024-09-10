@@ -37,12 +37,6 @@ fun ChatTextField(
         singleLine = true,
         onValueChange = { onNameChange(it) },
         textStyle = MaterialTheme.typography.bodyLarge,
-        placeholder = {
-            Text(
-                text = "Define placeHolder",
-                style = MaterialTheme.typography.bodyLarge
-            )
-        },
         trailingIcon = {
             IconButton(
                 onClick = {

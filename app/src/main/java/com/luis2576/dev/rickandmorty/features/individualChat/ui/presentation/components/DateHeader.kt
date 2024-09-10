@@ -13,7 +13,6 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DateHeader(dateString: String) {
     val today = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())

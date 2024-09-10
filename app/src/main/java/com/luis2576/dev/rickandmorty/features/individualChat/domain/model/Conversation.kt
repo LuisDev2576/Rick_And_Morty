@@ -1,13 +1,13 @@
 package com.luis2576.dev.rickandmorty.features.individualChat.domain.model
 
 data class Conversation(
-    val messages: List<Message>
+    val messages: List<Message> = emptyList()
 )
 
 data class Message(
-    val text: String?,
-    val imageUrl: String?,
-    val timestamp: Long,
-    val sendByMe: Boolean?,
-    val read: Boolean? = null
+    val imageUrl: String? = null,
+    val read: Boolean = false,
+    val sendByMe: Boolean = true,
+    val text: String? = null,
+    val timestamp: Long = 0L
 )

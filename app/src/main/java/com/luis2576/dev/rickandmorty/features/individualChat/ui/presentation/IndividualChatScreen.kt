@@ -27,6 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
+import com.luis2576.dev.rickandmorty.features.individualChat.domain.model.Conversation
+import com.luis2576.dev.rickandmorty.features.individualChat.domain.model.Message
 import com.luis2576.dev.rickandmorty.features.individualChat.ui.presentation.components.ChatContent
 import com.luis2576.dev.rickandmorty.features.individualChat.ui.state.LoadContactResponse
 import com.luis2576.dev.rickandmorty.features.individualChat.ui.viewModel.IndividualChatViewModel
@@ -41,10 +43,15 @@ fun IndividualChatScreen(
 ){
     // Llama a loadContact cada vez que se navega a la pantalla con un nuevo contactId
     LaunchedEffect(contactId) {
-        contactId?.let { individualChatViewMode.loadContact(contactId) }
+        contactId?.let {
+            individualChatViewMode.loadContact(contactId)
+            individualChatViewMode.downloadConversation(contactId, "aCYgcmKGjATnPvsUKgBNAAbew2h2")
+        }
     }
 
     val contactResponse by individualChatViewMode.contact.collectAsState()
+    val conversationResponse by individualChatViewMode.downloadedConversation.collectAsState()
+    val sendMessageResponse by individualChatViewMode.sendMessageResult.collectAsState()
 
     when (val contactState = contactResponse) {
         is LoadContactResponse.LoadingContact -> {
@@ -56,6 +63,23 @@ fun IndividualChatScreen(
                     contact = it,
                     backHome = {
                         navController.navigate(ContactsScreen)
+                    },
+                    conversationState = conversationResponse,
+                    message = individualChatViewMode.message,
+                    onMessageChange = {
+                        individualChatViewMode.onEmailChange(it)
+                    },
+                    onSendMessage = { conversation, contactId, message ->
+                        individualChatViewMode.sendMessage(
+                            contact = it,
+                            userId = "aCYgcmKGjATnPvsUKgBNAAbew2h2",
+                            conversation = conversation,
+                            newMessage = message
+                        )
+                    },
+                    sendMessageState = sendMessageResponse,
+                    onSendFirstMessage = { contactId, message ->
+                        individualChatViewMode.sendMessage(userId = "aCYgcmKGjATnPvsUKgBNAAbew2h2", contact = it, newMessage = message, conversation = Conversation(listOf(message)))
                     }
                 )
             }

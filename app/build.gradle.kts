@@ -112,5 +112,8 @@ dependencies {
     implementation (libs.firebase.storage.ktx)
 
     // Biometric authentication
-    implementation("androidx.biometric:biometric:1.1.0")
+    implementation(libs.androidx.biometric)
+
+    // Vertex AI by Firebase
+    implementation(libs.firebase.vertexai)
 }

@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.luis2576.dev.rickandmorty.ui.presentation.charactersHome.CharactersHomeScreen
+import com.luis2576.dev.rickandmorty.features.contacts.ui.presentation.ContactsScreen
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
@@ -16,10 +16,10 @@ fun Navigation() {
 
         NavHost(
             navController = navHostController,
-            startDestination = CharactersHome
+            startDestination = ContactsScreen
         ) {
-            composable<CharactersHome> {
-                CharactersHomeScreen()
+            composable<ContactsScreen> {
+                ContactsScreen(navController = navHostController)
             }
 
             composable<CharacterDetails> {

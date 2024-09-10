@@ -3,12 +3,12 @@
 
     <!-- Errors -->
     <string name="no_internet_no_data">No internet connection and no local data available</string>
-    <string name="error_loading_countries">Error loading countries</string>
+    <string name="error_loading_contacts">Error loading contacts</string>
     <string name="unknown_error">Unknown error</string>
     <string name="invalid_number">Invalid number</string>
     <string name="country_id_required">countryId is required</string>
-    <string name="country_not_found">Country not found</string>
-    <string name="failed_to_load_country_details">Failed to load country details</string>
+    <string name="contact_not_found">Contact not found</string>
+    <string name="failed_to_load_contact_details">Failed to load contact details</string>
 
     <!-- Network Related -->
     <string name="no_internet_connection">It looks like you are not connected to the internet</string>

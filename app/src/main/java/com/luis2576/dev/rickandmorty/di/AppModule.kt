@@ -6,11 +6,11 @@ import androidx.room.Room
 import coil.ImageLoader
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.luis2576.dev.rickandmorty.data.dataSource.CharacterDataSourceImpl
-import com.luis2576.dev.rickandmorty.data.local.AppDatabase
-import com.luis2576.dev.rickandmorty.data.local.CharactersDao
-import com.luis2576.dev.rickandmorty.data.remote.RickAndMortyApi
-import com.luis2576.dev.rickandmorty.domain.dataSource.CharacterDataSource
+import com.luis2576.dev.rickandmorty.features.contacts.data.dataSource.ContactDataSourceImpl
+import com.luis2576.dev.rickandmorty.features.contacts.data.local.AppDatabase
+import com.luis2576.dev.rickandmorty.features.contacts.data.local.ContactsDao
+import com.luis2576.dev.rickandmorty.features.contacts.data.remote.RickAndMortyApi
+import com.luis2576.dev.rickandmorty.features.contacts.domain.dataSource.ContactDataSource
 import com.luis2576.dev.rickandmorty.util.NetworkUtil
 import dagger.Module
 import dagger.Provides
@@ -92,13 +92,13 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCharacterDao(appDatabase: AppDatabase): CharactersDao {
+    fun provideCharacterDao(appDatabase: AppDatabase): ContactsDao {
         return appDatabase.characterDao()
     }
 
     @Provides
     @Singleton
-    fun provideCharacterDataSource(characterDao: CharactersDao): CharacterDataSource {
-        return CharacterDataSourceImpl(characterDao)
+    fun provideCharacterDataSource(characterDao: ContactsDao): ContactDataSource {
+        return ContactDataSourceImpl(characterDao)
     }
 }

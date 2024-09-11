@@ -81,9 +81,14 @@ class IndividualChatDataSourceImpl @Inject constructor(
         conversation: Conversation
     ) {
         try {
-            Log.d("IndividualChatDataSource", "sendMessage: Iniciando envío del mensaje para userId=$userId, contactId=$contact")
+            Log.d("IndividualChatDataSource", "sendMessage: Iniciando envío del mensaje para userId=$userId, contactId=${contact.id}")
+
+            // Verifica cuántos mensajes hay en la conversación
+            Log.d("IndividualChatDataSource", "sendMessage: Número de mensajes en la conversación: ${conversation.messages.size}")
 
             val lastMessage = conversation.messages.last()
+            Log.d("IndividualChatDataSource", "sendMessage: Último mensaje -> text=${lastMessage.text}, timestamp=${lastMessage.timestamp}")
+
             val chatPreview = ChatPreview(
                 characterId = contact.id,
                 characterName = contact.name,
@@ -96,6 +101,7 @@ class IndividualChatDataSourceImpl @Inject constructor(
             )
 
             // Actualizar la conversación en Firestore
+            Log.d("IndividualChatDataSource", "sendMessage: Actualizando la conversación en Firestore")
             firebaseFirestore
                 .collection("users")
                 .document(userId)
@@ -103,8 +109,10 @@ class IndividualChatDataSourceImpl @Inject constructor(
                 .document(contact.id)
                 .set(conversation)
                 .await()
+            Log.d("IndividualChatDataSource", "sendMessage: Conversación actualizada correctamente en Firestore")
 
-            // Obtener el documento del usuario para actualizar la lista de chatPreviews
+            // Obtener el documento del usuario
+            Log.d("IndividualChatDataSource", "sendMessage: Obteniendo el documento del usuario con userId=$userId")
             val userDocument = firebaseFirestore
                 .collection("users")
                 .document(userId)
@@ -112,7 +120,7 @@ class IndividualChatDataSourceImpl @Inject constructor(
                 .await()
 
             // Obtener la lista actual de chatPreviews
-            val chatPreviews = userDocument.toObject(UserInformation::class.java)?.previewChats?.toMutableList() ?: mutableListOf()
+            val chatPreviews = userDocument.toObject(UserInformation::class.java)?.chatPreviews?.toMutableList() ?: mutableListOf()
 
             // Buscar y reemplazar el preview existente o agregar uno nuevo
             val index = chatPreviews.indexOfFirst { it.characterId == chatPreview.characterId }
@@ -125,6 +133,7 @@ class IndividualChatDataSourceImpl @Inject constructor(
             }
 
             // Guardar la lista actualizada de chatPreviews en Firestore
+            Log.d("IndividualChatDataSource", "sendMessage: Actualizando chatPreviews en Firestore -> $chatPreviews")
             firebaseFirestore
                 .collection("users")
                 .document(userId)
@@ -138,5 +147,6 @@ class IndividualChatDataSourceImpl @Inject constructor(
             throw e
         }
     }
+
 
 }

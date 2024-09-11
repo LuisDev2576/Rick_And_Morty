@@ -6,5 +6,5 @@ data class UserInformation(
     val uid: String = "",
     val name: String = "",
     val email: String = "",
-    val previewChats: List<ChatPreview> = emptyList()
+    val chatPreviews: List<ChatPreview> = emptyList()
 )

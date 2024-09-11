@@ -105,6 +105,7 @@ class IndividualChatViewModel @Inject constructor(
                 _sendMessageResult.value = SendMessageResult.SendingMessage // Indicar que el envío está en progreso
 
                 try {
+
                     val result = sendMessageUseCase.invoke(
                         userId = userId,
                         contact = contact,

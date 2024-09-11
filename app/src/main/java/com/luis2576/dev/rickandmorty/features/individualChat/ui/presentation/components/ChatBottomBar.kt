@@ -60,7 +60,7 @@ fun ChatBottomBar(
                         }
                     }
                     else -> {
-                        onSendClick(Conversation(emptyList()), Message(text = message, imageUrl = null, sendByMe = true, read = false, timestamp = System.currentTimeMillis()))
+                        onSendClick(Conversation("",emptyList()), Message(text = message, imageUrl = null, sendByMe = true, read = false, timestamp = System.currentTimeMillis()))
 //                        onSendFirstMessage(
 //                            Message(
 //                                text = message,

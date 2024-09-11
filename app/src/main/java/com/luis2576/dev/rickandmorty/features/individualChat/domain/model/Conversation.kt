@@ -1,6 +1,7 @@
 package com.luis2576.dev.rickandmorty.features.individualChat.domain.model
 
 data class Conversation(
+    val contactPersonality: String = "",
     val messages: List<Message> = emptyList()
 )
 

@@ -79,7 +79,7 @@ fun IndividualChatScreen(
                     },
                     sendMessageState = sendMessageResponse,
                     onSendFirstMessage = { contactId, message ->
-                        individualChatViewMode.sendMessage(userId = "aCYgcmKGjATnPvsUKgBNAAbew2h2", contact = it, newMessage = message, conversation = Conversation(listOf(message)))
+                        individualChatViewMode.sendMessage(userId = "aCYgcmKGjATnPvsUKgBNAAbew2h2", contact = it, newMessage = message, conversation = Conversation("", listOf(message)))
                     }
                 )
             }

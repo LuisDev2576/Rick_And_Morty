@@ -115,7 +115,7 @@ class IndividualChatViewModel @Inject constructor(
                         Log.d("IndividualChatViewModel", "sendMessage: Mensaje enviado exitosamente para userId=$userId, contactId=${contact.id}")
                         if (newMessage.sendByMe) {
                             Log.d("IndividualChatViewModel", "sendMessage: Llamando a Vertex AI con el nuevo mensaje")
-                            callVertexAi(conversation = conversation, userId = userId, contact = contact, message = newMessage)
+                            callVertexAi(userId = userId, contact = contact, message = newMessage)
                         }
                         _message = ""
                         _sendMessageResult.value = SendMessageResult.MessageSent(newMessage)
@@ -132,57 +132,91 @@ class IndividualChatViewModel @Inject constructor(
     }
 
     // Función que llama a Vertex AI para generar una respuesta basada en el último mensaje
-    private fun callVertexAi(conversation: Conversation, userId: String, contact: Contact, message: Message) {
+    private fun callVertexAi(userId: String, contact: Contact, message: Message) {
         viewModelScope.launch {
-            val lastMessage = message
+            downloadedConversation.collect { response ->
+                when (response) {
+                    is DownloadConversationResponse.MessagesDownloaded -> {
+                        val downloadedConversation = response.conversation // Conversación descargada
 
-            if (lastMessage.text.isNullOrEmpty()) {
-                Log.e("IndividualChatViewModel", "callVertexAi: Último mensaje vacío, no se puede generar respuesta de la IA.")
-                return@launch
-            }
+                        // Verifica que el último mensaje no esté vacío
+                        val lastMessage = downloadedConversation.messages.last()
 
-            try {
-                // Inicializa el modelo generativo Gemini 1.5
-                Log.d("IndividualChatViewModel", "callVertexAi: Inicializando modelo generativo Gemini 1.5")
-                val generativeModel = Firebase.vertexAI.generativeModel("gemini-1.5-pro")
+                        if (lastMessage.text.isNullOrEmpty()) {
+                            Log.e("IndividualChatViewModel", "callVertexAi: Último mensaje vacío, no se puede generar respuesta de la IA.")
+                            return@collect
+                        }
 
-                // El mensaje que se enviará como prompt a la IA
-                val prompt = lastMessage.text
-                Log.d("IndividualChatViewModel", "callVertexAi: Prompt enviado a Vertex AI: $prompt")
+                        if(!downloadedConversation.messages.last().sendByMe){
+                            return@collect
+                        }
 
-                // Crear el historial de mensajes para enviar a la IA
-                val chatHistory = conversation.messages.map {
-                    if (it.sendByMe) {
-                        // El rol "user" para los mensajes del usuario
-                        content(role = "user") { text(it.text?:"")}
-                    } else {
-                        // El rol "model" para los mensajes generados por la IA
-                        content(role = "model") {text(it.text?:"")}
+                        try {
+                            if (lastMessage.sendByMe) {
+                                // Inicializa el modelo generativo Gemini 1.5
+                                Log.d(
+                                    "IndividualChatViewModel",
+                                    "callVertexAi: Inicializando modelo generativo Gemini 1.5"
+                                )
+                                val generativeModel =
+                                    Firebase.vertexAI.generativeModel("gemini-1.5-pro")
+                                val personality = mutableStateOf(downloadedConversation.contactPersonality)
+                                if(downloadedConversation.messages.size == 1){
+                                    personality.value = generativeModel.generateContent("Teniendo en cuenta que tu respuesta será tomada para establecer la personalidad o tono de respuesta " +
+                                            "de un contacto en una aplicación de chat, genera una personalidad basada en el siguiente personaje de la serie rick y morty, " +
+                                            "debes describir también la forma en la que debe responder a mensajes, su humor, sarcasmo, pasiencia, inteligencia, amabilidad, etc, " +
+                                            "acá te paso la información del personaje: $contact").text?: "Error en la definición de la personalidad del personaje"
+                                }
+                                // El mensaje que se enviará como prompt a la IA
+                                val prompt = lastMessage.text
+                                Log.d("IndividualChatViewModel", "callVertexAi: Prompt enviado a Vertex AI: $prompt")
+
+                                // Crear el historial de mensajes para enviar a la IA
+                                val chatHistory = downloadedConversation.messages.map {
+                                    if (it.sendByMe) {
+                                        // El rol "user" para los mensajes del usuario
+                                        content(role = "user") { text(it.text?:"")}
+                                    } else {
+                                        // El rol "model" para los mensajes generados por la IA
+                                        content(role = "model") {text(it.text?:"")}
+                                    }
+                                }
+
+                                // Iniciar el chat con el historial y enviar el nuevo mensaje (prompt)
+                                val chat = generativeModel.startChat(history = chatHistory)
+                                val response = chat.sendMessage(content("user"){text("Teniendo en cuenta la siguiente personalidad asignada a este chat, responde al siguiente prompt: $prompt, acá te paso la personalidad: $personality, ten en cuenta que tu te llamas ${contact.name}")})
+                                Log.d("IndividualChatViewModel", "callVertexAi: Respuesta de la IA recibida: ${response.text}")
+
+                                // Crear un nuevo mensaje con la respuesta de la IA
+                                val aiMessage = Message(
+                                    text = response.text,
+                                    sendByMe = false,  // Lo envió la IA
+                                    timestamp = System.currentTimeMillis(),
+                                    read = false,
+                                    imageUrl = null
+                                )
+
+                                // Actualizar la conversación con el nuevo mensaje de la IA
+                                Log.d("IndividualChatViewModel", "callVertexAi: Conversación actualizada con el nuevo mensaje de la IA.")
+
+                                // Enviar el mensaje de la IA a Firebase
+                                sendMessage(userId, contact, downloadedConversation.copy(contactPersonality = personality.value), aiMessage)
+
+                            }
+
+                        } catch (e: Exception) {
+                            Log.e("IndividualChatViewModel", "callVertexAi: Error llamando a Vertex AI para userId=$userId, contactId=${contact.id}", e)
+                        }
+                    }
+
+                    is DownloadConversationResponse.Failure -> {
+                        Log.e("IndividualChatViewModel", "callVertexAi: Error al descargar la conversación", response.e)
+                    }
+
+                    else -> {
+                        Log.w("IndividualChatViewModel", "callVertexAi: Estado inesperado durante la descarga de la conversación.")
                     }
                 }
-
-                // Iniciar el chat con el historial y enviar el nuevo mensaje (prompt)
-                val chat = generativeModel.startChat(history = chatHistory)
-                val response = chat.sendMessage(content("user"){text(prompt)})
-                Log.d("IndividualChatViewModel", "callVertexAi: Respuesta de la IA recibida: ${response.text}")
-
-                // Crear un nuevo mensaje con la respuesta de la IA
-                val aiMessage = Message(
-                    text = response.text,
-                    sendByMe = false,  // Lo envió la IA
-                    timestamp = System.currentTimeMillis(),
-                    read = false,
-                    imageUrl = null
-                )
-
-                // Actualizar la conversación con el nuevo mensaje de la IA
-                Log.d("IndividualChatViewModel", "callVertexAi: Conversación actualizada con el nuevo mensaje de la IA.")
-
-                // Enviar el mensaje de la IA a Firebase
-                sendMessage(userId, contact, conversation.copy(messages = conversation.messages.plus(message)), aiMessage)
-
-            } catch (e: Exception) {
-                Log.e("IndividualChatViewModel", "callVertexAi: Error llamando a Vertex AI para userId=$userId, contactId=${contact.id}", e)
             }
         }
     }

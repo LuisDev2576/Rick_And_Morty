@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.luis2576.dev.rickandmorty.features.contacts.domain.model.ContactPreview
+import com.luis2576.dev.rickandmorty.ui.navigation.ChatsHomeScreen
 import com.luis2576.dev.rickandmorty.ui.navigation.IndividualChatScreen
 
 /**
@@ -69,7 +70,7 @@ fun ContactsList(
                         }
                     },
                     navigationIcon = {
-                        IconButton(onClick = {  }) {
+                        IconButton(onClick = { navController.navigate(ChatsHomeScreen) }) {
                             Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back to home Buttom")
                         }
                     },

@@ -46,5 +46,49 @@
     <!-- Internal Identifiers -->
     <string name="country_name_key">countryName:/</string>
     <string name="country_flag_key">countryFlag:/</string>
+    <string name="greeting_message">Hola bienvenido!</string>
+    <string name="login_prompt">Por favor ingresa tu correo electronico y tu contraseña para iniciar sesion.</string>
+    <string name="biometric_auth_prompt">Ingresar con autenticación biometríca.</string>
+    <string name="email_placeholder">Correo electronico</string>
+    <string name="password_placeholder">Contraseña</string>
+    <string name="recover_password">Recuperar contraseña</string>
+    <string name="login_button">Iniciar sesion</string>
+    <string name="no_account">Todavía no tienes una cuenta?</string>
+    <string name="create_account">Crear cuenta</string>
+    <string name="create_account_title">Crea tu cuenta!</string>
+    <string name="name_placeholder">Nombre completo</string>
+    <string name="phone_placeholder">Numero de celular</string>
+    <string name="confirm_password_placeholder">Confirmar contraseña</string>
+    <string name="create_account_button">Crear cuenta</string>
+    <string name="already_have_account">Ya tienes una cuenta?</string>
+    <string name="recover_password_title">Recuperar contraseña</string>
+    <string name="recover_password_instructions">Ingrese su correo electrónico, se le será enviado un link de recuperación.</string>
+    <string name="send_button">Enviar</string>
+    <string name="remembered_password">Recordaste la contraseña?</string>
+
+    <!-- Error Messages -->
+    <string name="error_email_already_in_use">El correo electrónico ya está en uso.</string>
+    <string name="error_weak_password">La contraseña proporcionada es demasiado débil.</string>
+    <string name="error_invalid_email">Email inválido.</string>
+    <string name="error_user_not_found">El email ingresado no se encuentra registrado o la cuenta fue eliminada.</string>
+    <string name="error_wrong_password">Contraseña incorrecta.</string>
+    <string name="error_insufficient_permissions">Permisos insuficientes para acceder a los datos del usuario.</string>
+    <string name="error_user_data_not_found">Datos del usuario no encontrados.</string>
+    <string name="error_uploading_user_data">Error al cargar los datos del usuario.</string>
+    <string name="error_try_again">Error en el registro, por favor vuelva a intentarlo.</string>
+    <string name="error_interpreting_user_data">Error al interpretar los datos del usuario.</string>
+    <string name="error_short_password">La contraseña no puede tener menos de 6 dígitos.</string>
+    <string name="error_name_empty">El nombre no puede estar vacío.</string>
+    <string name="error_phone_empty">El número de celular no puede estar vacío.</string>
+    <string name="error_phone_invalid">El número de teléfono debe tener al menos 10 digitos.</string>
+    <string name="error_email_empty">El correo electrónico no puede estar vacío.</string>
+    <string name="error_email_invalid">Email inválido.</string>
+    <string name="error_password_empty">La contraseña no puede estar vacía.</string>
+    <string name="error_password_short">La contraseña debe tener al menos 6 dígitos.</string>
+    <string name="error_confirm_password_empty">La confirmación de la contraseña no puede estar vacía.</string>
+    <string name="error_passwords_not_matched">Las contraseñas no coinciden.</string>
+    <string name="registration_success">Registro exitoso.</string>
+    <string name="password_reset_email_sent">Correo enviado exitosamente, por favor revise su bandeja de SPAM.</string>
+    <string name="error_unknown">Error desconocido.</string>
 
 </resources>

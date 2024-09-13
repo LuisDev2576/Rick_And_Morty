@@ -1,5 +1,7 @@
 package com.luis2576.dev.rickandmorty.di
 
+import com.luis2576.dev.rickandmorty.features.authentication.data.repository.AuthRepositoryImpl
+import com.luis2576.dev.rickandmorty.features.authentication.domain.repository.AuthRepository
 import com.luis2576.dev.rickandmorty.features.contacts.data.repository.ContactRepositoryImpl
 import com.luis2576.dev.rickandmorty.features.contacts.domain.repository.ContactRepository
 import com.luis2576.dev.rickandmorty.features.individualChat.data.repository.IndividualChatRepositoryImpl
@@ -24,5 +26,12 @@ abstract class RepositoryModule {
     abstract fun bindIndividualChatRepository(
         repositoryImpl: IndividualChatRepositoryImpl
     ): IndividualChatRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindAuthRepository(
+        repositoryImpl: AuthRepositoryImpl
+    ): AuthRepository
+
 }
 

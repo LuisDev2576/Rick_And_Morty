@@ -21,6 +21,8 @@ import com.luis2576.dev.rickandmorty.features.contacts.domain.dataSource.Contact
 import com.luis2576.dev.rickandmorty.features.individualChat.data.dataSource.IndividualChatDataSourceImpl
 import com.luis2576.dev.rickandmorty.features.individualChat.domain.dataSource.IndividualChatDataSource
 import com.luis2576.dev.rickandmorty.util.NetworkUtil
+import com.luis2576.dev.rickandmorty.util.userInformation.UserInformationRepository
+import com.luis2576.dev.rickandmorty.util.userInformation.UserInformationRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -128,5 +130,16 @@ object AppModule {
         firebaseFirestore: FirebaseFirestore
     ): IndividualChatDataSource {
         return IndividualChatDataSourceImpl(contactDao, firebaseFirestore)
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideUserInformationRepository(
+        context: Context,
+        firebaseFirestore: FirebaseFirestore,
+        firebaseStorage: FirebaseStorage
+    ): UserInformationRepository {
+        return UserInformationRepositoryImpl(context, firebaseFirestore, firebaseStorage)
     }
 }

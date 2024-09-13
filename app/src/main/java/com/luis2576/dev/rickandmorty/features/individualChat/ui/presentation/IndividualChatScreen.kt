@@ -32,6 +32,7 @@ import com.luis2576.dev.rickandmorty.features.individualChat.domain.model.Messag
 import com.luis2576.dev.rickandmorty.features.individualChat.ui.presentation.components.ChatContent
 import com.luis2576.dev.rickandmorty.features.individualChat.ui.state.LoadContactResponse
 import com.luis2576.dev.rickandmorty.features.individualChat.ui.viewModel.IndividualChatViewModel
+import com.luis2576.dev.rickandmorty.ui.navigation.ChatsHomeScreen
 import com.luis2576.dev.rickandmorty.ui.navigation.ContactsScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,7 +63,7 @@ fun IndividualChatScreen(
                 ChatContent(
                     contact = it,
                     backHome = {
-                        navController.navigate(ContactsScreen)
+                        navController.navigate(ChatsHomeScreen)
                     },
                     conversationState = conversationResponse,
                     message = individualChatViewMode.message,

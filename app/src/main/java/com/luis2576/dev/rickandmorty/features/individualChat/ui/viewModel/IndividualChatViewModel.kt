@@ -115,7 +115,7 @@ class IndividualChatViewModel @Inject constructor(
                         Log.d("IndividualChatViewModel", "sendMessage: Mensaje enviado exitosamente para userId=$userId, contactId=${contact.id}")
                         if (newMessage.sendByMe) {
                             Log.d("IndividualChatViewModel", "sendMessage: Llamando a Vertex AI con el nuevo mensaje")
-                            callVertexAi(userId = userId, contact = contact, message = newMessage)
+                            callVertexAi(userId = userId, contact = contact)
                         }
                         _message = ""
                         _sendMessageResult.value = SendMessageResult.MessageSent(newMessage)
@@ -132,7 +132,7 @@ class IndividualChatViewModel @Inject constructor(
     }
 
     // Función que llama a Vertex AI para generar una respuesta basada en el último mensaje
-    private fun callVertexAi(userId: String, contact: Contact, message: Message) {
+    private fun callVertexAi(userId: String, contact: Contact) {
         viewModelScope.launch {
             downloadedConversation.collect { response ->
                 when (response) {
@@ -184,7 +184,20 @@ class IndividualChatViewModel @Inject constructor(
 
                                 // Iniciar el chat con el historial y enviar el nuevo mensaje (prompt)
                                 val chat = generativeModel.startChat(history = chatHistory)
-                                val response = chat.sendMessage(content("user"){text("Teniendo en cuenta la siguiente personalidad asignada a este chat, responde al siguiente prompt: $prompt, acá te paso la personalidad: $personality, ten en cuenta que tu te llamas ${contact.name}")})
+                                val response = chat.sendMessage(
+                                    content("user"){
+                                        text(
+                                            "Responde al siguiente prompt: $prompt, " +
+                                                    "teniendo en cuenta la siguiente personalidad: ${personality.value}, " +
+                                                    "ten en cuenta que tu te llamas ${contact.name}," +
+                                                    " siempre responde de manera coherente con el historial de la conversación y" +
+                                                    "No describas comportamientos del contacto o personaje por ejemplo *Resopla* o *Toma una cerveza*, " +
+                                                    "limita la respuesta a solo texto porque es para un chat, no un guion," +
+                                                    "si te pido que recuerdes algo, me refiero solo al contexto de la conversacion, no mas allá, " +
+                                                    "por cierto, no sabes mi nombre, así que no me llames de ninguna manera a menos de que te lo diga"
+                                        )
+                                    }
+                                )
                                 Log.d("IndividualChatViewModel", "callVertexAi: Respuesta de la IA recibida: ${response.text}")
 
                                 // Crear un nuevo mensaje con la respuesta de la IA

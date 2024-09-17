@@ -36,10 +36,10 @@ class LoginViewModel @Inject constructor(
     private var _loginButtonEnabled by mutableStateOf(true)
     val loginButtonEnabled: Boolean get() = _loginButtonEnabled
 
-    private var _email by mutableStateOf("")
+    private var _email by mutableStateOf("luis@gmail.com")
     val email: String get() = _email
 
-    private var _password by mutableStateOf("")
+    private var _password by mutableStateOf("000000")
     val password: String get() = _password
 
     private var _loginStatus = mutableStateOf<LoginResponse<FirebaseUser>>(LoginResponse.UnLogged)

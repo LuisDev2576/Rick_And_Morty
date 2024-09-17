@@ -13,6 +13,7 @@ import com.luis2576.dev.rickandmorty.after.presentation.authentication.resetpass
 import com.luis2576.dev.rickandmorty.after.presentation.chats.allchats.ChatsHomeScreen
 import com.luis2576.dev.rickandmorty.after.presentation.contact.contactlist.ContactsScreen
 import com.luis2576.dev.rickandmorty.after.presentation.chats.individualchats.IndividualChatScreen
+import com.luis2576.dev.rickandmorty.after.presentation.contact.contactlist.ContactsViewModel
 import com.luis2576.dev.rickandmorty.after.presentation.shared.UserInformationViewModel
 
 @OptIn(ExperimentalSharedTransitionApi::class)
@@ -20,6 +21,7 @@ import com.luis2576.dev.rickandmorty.after.presentation.shared.UserInformationVi
 fun Navigation() {
     SharedTransitionLayout {
         val navHostController = rememberNavController()
+        val contactsViewModel: ContactsViewModel = hiltViewModel()
 
         NavHost(
             navController = navHostController,
@@ -38,7 +40,12 @@ fun Navigation() {
                 ChatsHomeScreen(navController = navHostController, userInformationViewModel = userInformationViewModel)
             }
 
-            composable<ContactsScreen> { ContactsScreen(navController = navHostController) }
+            composable<ContactsScreen> {
+                ContactsScreen(
+                    navController = navHostController,
+                    contactsViewModel = contactsViewModel
+                )
+            }
 
             composable<IndividualChatScreen> {backStackEntry -> val userInformationViewModel: UserInformationViewModel = hiltViewModel(backStackEntry)
                 val contactId = backStackEntry.arguments?.getString("contactId")?: "1"

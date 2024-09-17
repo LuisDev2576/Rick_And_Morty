@@ -91,7 +91,7 @@ class IndividualChatViewModel @Inject constructor(
         _message = message
     }
 
-    fun sendMessage(userId: String, contact: Contact, conversation: Conversation, newMessage: Message) {
+    fun sendMessage(userId: String, contact: Contact, conversation: Conversation, newMessage: Message, userName: String) {
         viewModelScope.launch {
             if (message.isEmpty() && newMessage.sendByMe) {
                 Log.d("IndividualChatViewModel", "sendMessage: Mensaje vacío, no se envía nada para userId=$userId, contactId=${contact.id}")
@@ -110,7 +110,7 @@ class IndividualChatViewModel @Inject constructor(
                         Log.d("IndividualChatViewModel", "sendMessage: Mensaje enviado exitosamente para userId=$userId, contactId=${contact.id}")
                         if (newMessage.sendByMe) {
                             Log.d("IndividualChatViewModel", "sendMessage: Llamando a Vertex AI con el nuevo mensaje")
-                            callVertexAi(userId = userId, contact = contact)
+                            callVertexAi(userId = userId, contact = contact, userName = userName)
                         }
                         _message = ""
                         _sendMessageResult.value = SendMessageResult.MessageSent(newMessage)
@@ -127,7 +127,7 @@ class IndividualChatViewModel @Inject constructor(
     }
 
     // Función que llama a Vertex AI para generar una respuesta basada en el último mensaje
-    private fun callVertexAi(userId: String, contact: Contact) {
+    private fun callVertexAi(userId: String, contact: Contact, userName: String) {
         viewModelScope.launch {
             downloadedConversation.collect { response ->
                 when (response) {
@@ -154,17 +154,53 @@ class IndividualChatViewModel @Inject constructor(
                                     "callVertexAi: Inicializando modelo generativo Gemini 1.5"
                                 )
                                 val generativeModel =
-                                    Firebase.vertexAI.generativeModel("gemini-1.5-pro")
+                                    Firebase.vertexAI.generativeModel("gemini-1.5-flash")
                                 val personality = mutableStateOf(downloadedConversation.contactPersonality)
+
                                 if(downloadedConversation.messages.size == 1){
-                                    personality.value = generativeModel.generateContent("Teniendo en cuenta que tu respuesta será tomada para establecer la personalidad o tono de respuesta " +
-                                            "de un contacto en una aplicación de chat, genera una personalidad basada en el siguiente personaje de la serie rick y morty, " +
-                                            "debes describir también la forma en la que debe responder a mensajes, su humor, sarcasmo, pasiencia, inteligencia, amabilidad, etc, " +
-                                            "acá te paso la información del personaje: $contact").text?: "Error en la definición de la personalidad del personaje"
+                                    val prompt = """
+                                        **Objetivo:**
+                                    
+                                        Generar una personalidad detallada y fiel para ${contact.name} de Rick & Morty, que permita mantener conversaciones interesantes, coherentes y en su estilo característico. 
+                                    
+                                        **Información del personaje:**
+                                    
+                                        * **Nombre:** ${contact.name}
+                                        * **Estatus:** ${contact.status}
+                                        * **Especie:** ${contact.species}
+                                        * **Tipo:** ${contact.type}
+                                        * **Género:** ${contact.gender}
+                                        * **Lugar de origen:** ${contact.originName}
+                                        * **Ubicación actual:** ${contact.locationName}
+                                        * **Imagen:** ${contact.image}
+                                        * **Episodios en los que aparece:** ${contact.episodeList}
+                                    
+                                        **Personalidad:**
+                                    
+                                        * **Rasgos principales:** Describe los rasgos de personalidad más destacados del personaje (ej: cínico, inteligente, inseguro, aventurero, etc.).
+                                        * **Forma de hablar:** ¿Cómo habla el personaje? (ej: utiliza jerga científica, tartamudea, es sarcástico, grita, etc.).
+                                        * **Intereses y motivaciones:** ¿Qué le gusta y qué le motiva al personaje?
+                                        * **Relación con otros personajes:** ¿Cómo se relaciona con otros personajes clave de la serie?
+                                        * **Debilidades y miedos:** ¿Cuáles son sus puntos débiles y sus miedos?
+                                    
+                                        **Instrucciones para la conversación:**
+                                    
+                                        * **Mantener la coherencia:** Las respuestas deben ser coherentes con la personalidad del personaje y su historia en la serie.
+                                        * **Responder a las preguntas:** El personaje debe responder directamente a las preguntas del usuario, incluso si lo hace de forma evasiva o sarcástica, según su personalidad.
+                                        * **Utilizar su estilo característico:** El personaje debe expresarse utilizando su forma de hablar y vocabulario habituales.
+                                        * **Incluir referencias a la serie:** En la medida de lo posible, incluir referencias a eventos o situaciones de la serie para enriquecer la conversación.
+                                        * **Ser creativo:** No dudes en improvisar y añadir un toque de humor o sorpresa a las respuestas, siempre que sea coherente con el personaje.
+                                    
+                                        **Notas adicionales:**
+                                    
+                                        * Si el personaje tiene frases recurrentes o muletillas, inclúyelas en su forma de hablar.
+                                        * Considera el contexto de los episodios en los que aparece el personaje para entender mejor su personalidad y motivaciones.
+                                        """
+                                    personality.value = generativeModel.generateContent(prompt).text?: "Error en la definición de la personalidad del personaje"
                                 }
                                 // El mensaje que se enviará como prompt a la IA
-                                val prompt = lastMessage.text
-                                Log.d("IndividualChatViewModel", "callVertexAi: Prompt enviado a Vertex AI: $prompt")
+                                val userMessage = lastMessage.text
+                                Log.d("IndividualChatViewModel", "callVertexAi: Prompt enviado a Vertex AI: $userMessage")
 
                                 // Crear el historial de mensajes para enviar a la IA
                                 val chatHistory = downloadedConversation.messages.map {
@@ -182,19 +218,32 @@ class IndividualChatViewModel @Inject constructor(
                                 val response = chat.sendMessage(
                                     content("user"){
                                         text(
-                                            "Responde al siguiente prompt: $prompt, " +
-                                                    "teniendo en cuenta la siguiente personalidad: ${personality.value}, " +
-                                                    "ten en cuenta que tu te llamas ${contact.name}," +
-                                                    " siempre responde de manera coherente con el historial de la conversación y" +
-                                                    "No describas comportamientos del contacto o personaje por ejemplo *Resopla* o *Toma una cerveza*, " +
-                                                    "limita la respuesta a solo texto porque es para un chat, no un guion," +
-                                                    "si te pido que recuerdes algo, me refiero solo al contexto de la conversacion, no mas allá, " +
-                                                    "por cierto, no sabes mi nombre, así que no me llames de ninguna manera a menos de que te lo diga"
+                                            """
+                                            **Instrucciones:**
+                                
+                                            Eres ${contact.name} de Rick & Morty. Estás conversando con $userName. 
+                                
+                                            **Personalidad de ${contact.name}:**
+                                
+                                            ${personality.value}
+                                
+                                            **Nuevo mensaje de $userName:**
+                                
+                                            $userMessage
+                                
+                                            **Responde al mensaje de $userName siguiendo estas pautas:**
+                                
+                                            * **Mantén la coherencia con tu personalidad, utilizando tu estilo característico y, si es posible, incluyendo referencias a la serie.**
+                                            * **No utilices ningún tipo de elemento o carácter para expresar una acción (por ejemplo, *, -, etc.). Solo responde con texto como en una conversación normal.**
+                                            * **Aunque debes darle un toque personal a tus respuestas basado en tu personalidad, siempre responde a lo que se te pide o se te pregunta.**
+                                            * **Asegúrate de que tus respuestas cumplan con las políticas de seguridad y de mensajes indebidos de Gemini. No generes contenido que sea dañino, inseguro, sesgado, o que promueva la discriminación o el odio.** 
+                                
+                                            """
                                         )
                                     }
                                 )
-                                Log.d("IndividualChatViewModel", "callVertexAi: Respuesta de la IA recibida: ${response.text}")
 
+                                Log.d("IndividualChatViewModel", "callVertexAi: Respuesta de la IA recibida: ${response.text}")
                                 // Crear un nuevo mensaje con la respuesta de la IA
                                 val aiMessage = Message(
                                     text = response.text,
@@ -208,7 +257,7 @@ class IndividualChatViewModel @Inject constructor(
                                 Log.d("IndividualChatViewModel", "callVertexAi: Conversación actualizada con el nuevo mensaje de la IA.")
 
                                 // Enviar el mensaje de la IA a Firebase
-                                sendMessage(userId, contact, downloadedConversation.copy(contactPersonality = personality.value), aiMessage)
+                                sendMessage(userId, contact, downloadedConversation.copy(contactPersonality = personality.value), aiMessage, userName = userName)
 
                             }
 

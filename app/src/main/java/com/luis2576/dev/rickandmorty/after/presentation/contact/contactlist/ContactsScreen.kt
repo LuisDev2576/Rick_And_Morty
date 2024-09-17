@@ -18,7 +18,7 @@ import com.luis2576.dev.rickandmorty.after.presentation.contact.contactlist.comp
  */
 @Composable
 fun ContactsScreen(
-    contactsViewModel: ContactsViewModel = hiltViewModel(),
+    contactsViewModel: ContactsViewModel,
     navController: NavHostController
 ) {
     val contactListState by contactsViewModel.contactsListState.collectAsState()

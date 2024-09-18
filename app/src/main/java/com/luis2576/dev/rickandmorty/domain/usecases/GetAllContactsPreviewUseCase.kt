@@ -1,0 +1,31 @@
+package com.luis2576.dev.rickandmorty.domain.usecases
+
+import com.luis2576.dev.rickandmorty.domain.models.ContactPreview
+import com.luis2576.dev.rickandmorty.domain.repositories.ContactRepository
+import com.luis2576.dev.rickandmorty.util.Resource
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import javax.inject.Inject
+
+/**
+ * Caso de uso para obtener una vista previa de todos los contactos.
+ *
+ * @param repository Repositorio de contactos.
+ */
+class GetAllContactsPreviewUseCase @Inject constructor(
+    private val repository: ContactRepository
+) {
+    /**
+     * Obtiene un flujo de recursos que representa la lista de contactos.
+     *
+     * @param forceFetchFromRemote Indica si se debe forzar la obtención de datos desde el servidor remoto.
+     * @return Flujo de recursos que contiene la lista de contactos o un error.
+     */
+    operator fun invoke(forceFetchFromRemote: Boolean): Flow<Resource<List<ContactPreview>>> = flow {
+        emit(Resource.Loading())
+        val result = repository.getAllContactsPreviews(forceFetchFromRemote)
+        emit(result)
+    }.flowOn(Dispatchers.IO)
+}

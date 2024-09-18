@@ -8,6 +8,12 @@
 ![Static Badge](https://img.shields.io/badge/Jetpack_Compose-264653?style=for-the-badge&logo=jetpackcompose)
 ![Static Badge](https://img.shields.io/badge/GitHub-264653?style=for-the-badge&logo=github)
 
+# 📥 &nbsp;Download
+
+<a href="https://drive.google.com/drive/folders/1Mo74w3Vg215TbP13Y2olZRIeX5aEizYh?usp=sharing">
+  <img src="https://github.com/user-attachments/assets/655df0b1-9343-4b33-ba21-120c90868427" width = 250px alt="Download APK">
+</a>
+
 # 📄 &nbsp;Descripción
 Rick & Morty AI Chat es una aplicación móvil que permite a los usuarios 
 tener conversaciones impulsadas por inteligencia artificial con los 
@@ -33,5 +39,10 @@ icónicos personajes de la serie Rick & Morty.
 *  Coil: Para la carga y manejo optimizado de imágenes, incluyendo soporte para imágenes SVG.
 *  Extended Icons de Material Design: Proporciona una vasta colección de iconos para mejorar la interfaz de usuario.
 
-# &nbsp;Authentication
+# 🔐 &nbsp;Authentication
 <img src="https://github.com/user-attachments/assets/2cbd9dd5-b372-416f-a1c6-fb06142c6d9d" alt="Authentication Screens">
+
+## 📂 Estructura del Proyecto
+<img src="https://github.com/user-attachments/assets/f071a901-600f-4840-8f7c-acca7b378e2e" alt="Project Sctructure">
+
+

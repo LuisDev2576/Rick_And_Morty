@@ -1,47 +1,37 @@
-<h1 style="text-align: center;"><strong>WORLD FLAGS</strong></h1>
-<img src="https://github.com/LuisDev2576/World_Flags/assets/123314822/f5733443-60d9-427c-8c9f-bfe619ea0551" alt="World Flags banner">
+<h1 style="text-align: center;"><strong>Rick & Morty Chat AI</strong></h1>
+<img src="https://github.com/user-attachments/assets/233f446a-edce-4b2c-8eb8-c25a04a15225" alt="Rick & Morty Chat AI banner">
 
 # 🛠 &nbsp;Tech Stack 
 ![Static Badge](https://img.shields.io/badge/Figma-264653?style=for-the-badge&logo=figma)
 ![Static Badge](https://img.shields.io/badge/Android_Studio-264653?style=for-the-badge&logo=android)
 ![Static Badge](https://img.shields.io/badge/Kotlin-264653?style=for-the-badge&logo=kotlin)
 ![Static Badge](https://img.shields.io/badge/Jetpack_Compose-264653?style=for-the-badge&logo=jetpackcompose)
-![Static Badge](https://img.shields.io/badge/SQL-264653?style=for-the-badge&logo=mysql&logoColor=white)
 ![Static Badge](https://img.shields.io/badge/GitHub-264653?style=for-the-badge&logo=github)
-![Static Badge](https://img.shields.io/badge/Play_Store-264653?style=for-the-badge&logo=googleplay)
 
 # 📄 &nbsp;Descripción
-World Flags es una aplicación móvil desarrollada en Android Studio utilizando Kotlin y Jetpack Compose, 
-diseñada para ofrecer una interfaz interactiva y educativa sobre información mundial. 
-Con una integración fluida con APIs y diversas librerías, World Flags brinda una experiencia de usuario 
-optimizada y atractiva para explorar datos sobre países.
+Rick & Morty AI Chat es una aplicación móvil que permite a los usuarios 
+tener conversaciones impulsadas por inteligencia artificial con los 
+icónicos personajes de la serie Rick & Morty.
 
 ### Características Principales:
-*  Visualización de Países: Explore una lista visual de países, mostrando sus banderas y capitales de forma atractiva y fácil de navegar.
-*  Buscador de Países: Utilice la funcionalidad de búsqueda integrada para encontrar rápidamente información sobre cualquier país listado en la aplicación.
-*  Detalles del País: Al seleccionar un país, los usuarios pueden ver detalles específicos como la población, área geográfica, y más. Estos detalles están diseñados para proporcionar una comprensión rápida y completa de cada país.
-*  Países Fronterizos: Descubra e interactúe con los países que comparten frontera, presentados a través de iconos intuitivos que permiten una navegación fácil entre las naciones vecinas.
+*  Autenticación: Los usuarios pueden registrarse, iniciar sesión y recuperar su contraseña de forma segura utilizando Firebase Authentication.
+*  Chats: Los usuarios pueden ver todas sus conversaciones en la pantalla "HomeChats" y chatear individualmente con un personaje en la pantalla "IndividualChat".
+*  Contactos: Los usuarios pueden ver una lista de personajes de Rick & Morty con los que pueden iniciar una conversación en la pantalla "ContactList".
+*  Personalidades únicas: Cada personaje tiene una personalidad única generada por Vertex AI de Firebase, basada en su información de la API de Rick & Morty.
+*  Almacenamiento de datos: Los datos de los usuarios, chats y personajes se almacenan de forma segura en Firebase y en una base de datos local (ROOM).
 
 ### Tecnologías y Librerías Utilizadas:
-*  Jetpack Compose: Para un diseño moderno y declarativo de la UI.
+*  Jetpack Compose: Para crear una interfaz de usuario declarativa y reactiva, lo que simplifica el desarrollo y mejora la capacidad de mantenimiento.
 *  Navigation Compose: Gestión eficiente y efectiva de la navegación en la aplicación.
-*  Room: Para almacenamiento local robusto y acceso a datos.
-*  Dagger - Hilt: Para la inyección de dependencia, asegurando una arquitectura escalable y mantenible.
-*  Retrofit y OkHttp: Para las comunicaciones de red, permitiendo el consumo eficiente de APIs REST.
+*  Kotlin: Lenguaje de programación principal, que ofrece concisión, seguridad y características modernas para un desarrollo eficiente.
+*  Coroutines & Flow: Para manejar operaciones asíncronas y flujos de datos de manera efectiva.
+*  Android Architecture Components (ViewModel, LiveData, Room): Para implementar el patrón MVVM y gestionar el ciclo de vida, los datos y la persistencia local de manera estructurada.
+*  Hilt (Dagger): Para la inyección de dependencias, facilitando la modularidad y la testabilidad del código.
+*  Retrofit: Para realizar solicitudes de red y consumir la API de Rick & Morty.
+*  Firebase: Para la autenticación de usuarios, el almacenamiento en la nube (Firestore) y el acceso a Vertex AI para generar las personalidades de los personajes.
+*  Kotlinx Serialization: Para la serialización y deserialización de datos JSON.
 *  Coil: Para la carga y manejo optimizado de imágenes, incluyendo soporte para imágenes SVG.
 *  Extended Icons de Material Design: Proporciona una vasta colección de iconos para mejorar la interfaz de usuario.
 
-# 📥 &nbsp;Download
-<a href="https://play.google.com/store/apps/details?id=com.proyect.worldflags">
-  <img src="https://github.com/LuisDev2576/World_Flags/assets/123314822/74a99d35-a7c7-43d3-b7a9-cd1bc803584d" width = 250px alt="Play Store">
-</a>
-
-<a href="https://drive.google.com/file/d/1K8VWQDm6CSTia4Ry42fUvpAM4XRRhOLs/view?usp=sharing">
-  <img src="https://github.com/LuisDev2576/World_Flags/assets/123314822/69e33a20-5502-484b-a403-85924613d833" width = 250px alt="Download APK">
-</a>
-
-# ☀️&nbsp;Light mode
-<img src="https://github.com/LuisDev2576/World_Flags/assets/123314822/ab390e7f-18bc-4725-9263-95117221db1a" alt="Light mode">
-
-# 🌑&nbsp;Dark mode
-<img src="https://github.com/LuisDev2576/World_Flags/assets/123314822/416779e7-9196-4b66-b525-a899fcd20450" alt="Dark mode">
+# &nbsp;Authentication
+<img src="https://github.com/user-attachments/assets/2cbd9dd5-b372-416f-a1c6-fb06142c6d9d" alt="Authentication Screens">

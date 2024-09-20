@@ -26,7 +26,8 @@ room = "2.5.2"
 kotlin = "1.9.20"
 ksp = "1.9.10-1.0.13"
 serialization = "1.6.3"
-
+firebaseBom = "33.1.0"
+googleServices = "4.4.2"
 
 
 [libraries]
@@ -79,11 +80,17 @@ androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", vers
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coilSvg" }
 
+# Firebase
+firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-firestore-ktx = { module = "com.google.firebase:firebase-firestore-ktx" }
+firebase-storage-ktx = { module = "com.google.firebase:firebase-storage-ktx" }
 
 [plugins]
 # Plugins de Gradle
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
 
 daggerHilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

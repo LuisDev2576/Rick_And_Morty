@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlin)
+    alias(libs.plugins.google.services)
     alias(libs.plugins.daggerHilt)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.ksp)
@@ -31,6 +32,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -101,4 +103,18 @@ dependencies {
 
     // Multidex
     implementation(libs.androidx.multidex)
+
+    // Firebase BOM (Bill of Materials)
+    implementation(platform(libs.firebase.bom))
+
+    // Firebase dependencies
+    implementation (libs.firebase.auth.ktx)
+    implementation (libs.firebase.firestore.ktx)
+    implementation (libs.firebase.storage.ktx)
+
+    // Biometric authentication
+    implementation(libs.androidx.biometric)
+
+    // Vertex AI by Firebase
+    implementation(libs.firebase.vertexai)
 }
